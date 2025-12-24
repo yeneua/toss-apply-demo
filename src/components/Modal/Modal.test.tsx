@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { Modal } from './Modal';
@@ -157,11 +157,9 @@ describe('Modal', () => {
                 </Modal>
             );
 
-            await waitFor(() => {
-                const dialog = screen.getByRole('dialog');
-                expect(dialog).toHaveAttribute('aria-modal', 'true');
-                expect(dialog).toHaveAttribute('aria-labelledby');
-            });
+            const dialog = await screen.findByRole('dialog');
+            expect(dialog).toHaveAttribute('aria-modal', 'true');
+            expect(dialog).toHaveAttribute('aria-labelledby');
         });
 
         it('should link title with aria-labelledby', () => {
@@ -285,6 +283,7 @@ describe('Modal', () => {
 
             // Close modal
             await user.click(screen.getByText('Close'));
+            await waitForElementToBeRemoved(() => screen.queryByRole('dialog'));
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         });
     });

@@ -62,7 +62,7 @@ export function Modal({
     };
 
     const modalContent = (
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
             {open && (
                 <motion.div
                     initial={{ opacity: 0 }}
