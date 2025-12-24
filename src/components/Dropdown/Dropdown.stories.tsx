@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from './Dropdown';
+import * as React from 'react';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from './';
 
 const meta = {
     title: 'Components/Dropdown',

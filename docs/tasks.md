@@ -14,7 +14,7 @@
 - [x] [Dropdown] 기본 UI 구조 및 Trigger 구현
 - [x] [Dropdown] 메뉴 표시/숨김 로직 구현 (Open/Close State)
 - [x] [Dropdown] 키보드 접근성 구현 (Arrow Up/Down, Enter, Esc)
-- [ ] [Dropdown] Storybook 문서화
+- [x] [Dropdown] Storybook 문서화
 
 ### Modal / Dialog
 - [ ] [Modal] 테스트 작성 (Portal, Focus Trap, 키보드 이벤트, ARIA 속성)
