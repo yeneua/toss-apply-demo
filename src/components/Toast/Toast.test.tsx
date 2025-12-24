@@ -1,9 +1,20 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, act, renderHook, fireEvent, waitFor } from '@testing-library/react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { render, screen, act, renderHook, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { ToastProvider } from './ToastProvider';
 import { useToast } from './useToast';
+
+// Mock framer-motion to skip animations
+vi.mock('framer-motion', () => ({
+    motion: {
+        li: ({ children, ...props }: any) => {
+            const { layout, initial, animate, exit, onAnimationComplete, ...validProps } = props;
+            return <li {...validProps}>{children}</li>;
+        },
+    },
+    AnimatePresence: ({ children }: any) => <>{children}</>,
+}));
 
 describe('useToast', () => {
     it('should add toast', () => {
@@ -56,6 +67,10 @@ describe('useToast', () => {
 });
 
 describe('Toast Rendering', () => {
+    afterEach(() => {
+        vi.useRealTimers();
+    });
+
     it('should render toast message', async () => {
         const user = userEvent.setup();
         const TestComponent = () => {
@@ -100,9 +115,8 @@ describe('Toast Rendering', () => {
         expect(toast).toHaveClass('bg-red-50');
     });
 
-    it.skip('should dismiss after duration', async () => {
+    it('should dismiss after duration', async () => {
         vi.useFakeTimers();
-        const user = userEvent.setup();
 
         const TestComponent = () => {
             const { toast } = useToast();
@@ -115,34 +129,20 @@ describe('Toast Rendering', () => {
             </ToastProvider>
         );
 
-        await user.click(screen.getByText('Show'));
+        fireEvent.click(screen.getByText('Show'));
         expect(screen.getByText('Auto')).toBeInTheDocument();
 
-        // Fast-forward time
+        // Advance time (duration + buffer)
         act(() => {
-            vi.advanceTimersByTime(1000);
+            vi.advanceTimersByTime(1100);
         });
 
-        // Advance more for animation
-        act(() => {
-            vi.advanceTimersByTime(1000);
-        });
-
-        // Should be removed
-        // We might need to check if 'dismiss' was called, but checking DOM is better if it works
-        // If animation is stuck, this might fail.
-        // Let's assume AnimatePresence works or just check that state change triggered removal from virtual DOM
-        // With fake timers, assume Framer Motion uses time-based drivers that we advanced.
-
-        // Use waitFor which handles retries
-        await waitFor(() => {
-            expect(screen.queryByText('Auto')).not.toBeInTheDocument();
-        });
+        // Should be removed immediately since animations are mocked
+        expect(screen.queryByText('Auto')).not.toBeInTheDocument();
     });
 
-    it.skip('should pause timer on hover', async () => {
+    it('should pause timer on hover', async () => {
         vi.useFakeTimers();
-        const user = userEvent.setup();
 
         const TestComponent = () => {
             const { toast } = useToast();
@@ -155,33 +155,28 @@ describe('Toast Rendering', () => {
             </ToastProvider>
         );
 
-        await user.click(screen.getByText('Show'));
+        fireEvent.click(screen.getByText('Show'));
         const toast = screen.getByText('Hover').closest('li');
 
-        // Hover
+        // Hover to pause
         fireEvent.mouseEnter(toast!);
 
+        // Advance time past duration
         act(() => {
-            vi.advanceTimersByTime(1000);
+            vi.advanceTimersByTime(2000);
         });
 
+        // Should still be there because it's paused
         expect(screen.getByText('Hover')).toBeInTheDocument();
 
-        // Unhover
+        // Unhover to resume
         fireEvent.mouseLeave(toast!);
 
+        // Advance remaining time
         act(() => {
-            vi.advanceTimersByTime(1000);
+            vi.advanceTimersByTime(1100);
         });
 
-        // Advance more for animation
-        act(() => {
-            vi.advanceTimersByTime(1000);
-        });
-
-        // Should be removed
-        await waitFor(() => {
-            expect(screen.queryByText('Hover')).not.toBeInTheDocument();
-        });
+        expect(screen.queryByText('Hover')).not.toBeInTheDocument();
     });
 });
