@@ -25,11 +25,11 @@
 - [x] [Modal] Storybook 문서화
 
 ### Tabs
-- [ ] [Tabs] 테스트 작성 (상태 관리, 키보드 네비게이션, ARIA 속성)
-- [ ] [Tabs] Compound Component 구조 설계 (Root, List, Trigger, Content)
-- [ ] [Tabs] 활성 탭 상태 관리 로직
-- [ ] [Tabs] 키보드 네비게이션 (Left/Right Arrow)
-- [ ] [Tabs] Storybook 문서화
+- [x] [Tabs] 테스트 작성 (상태 관리, 키보드 네비게이션, ARIA 속성)
+- [x] [Tabs] Compound Component 구조 설계 (Root, List, Trigger, Content)
+- [x] [Tabs] 활성 탭 상태 관리 로직
+- [x] [Tabs] 키보드 네비게이션 (Left/Right Arrow)
+- [x] [Tabs] Storybook 문서화
 
 ### Accordion
 - [ ] [Accordion] 테스트 작성 (상태 관리, 다중/단일 선택, ARIA 속성)
