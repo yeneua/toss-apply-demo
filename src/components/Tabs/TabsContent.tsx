@@ -10,15 +10,18 @@ export function TabsContent({ value, children, className }: TabsContentProps) {
 
     const isActive = activeValue === value;
 
+    if (!isActive) {
+        return null;
+    }
+
     return (
         <div
             id={panelId}
             role="tabpanel"
             aria-labelledby={tabId}
-            hidden={!isActive}
             className={cn(className)}
         >
-            {isActive && children}
+            {children}
         </div>
     );
 }

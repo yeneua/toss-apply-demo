@@ -33,8 +33,8 @@ describe('Tabs', () => {
                     <TabsContent value="tab2">Content 2</TabsContent>
                 </Tabs>
             );
-            expect(screen.getByText('Content 1')).toBeVisible();
-            expect(screen.getByText('Content 2')).not.toBeVisible();
+            expect(screen.getByText('Content 1')).toBeInTheDocument();
+            expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
         });
 
         it('should render multiple tabs', () => {
@@ -66,8 +66,8 @@ describe('Tabs', () => {
             );
 
             await user.click(screen.getByText('Tab 2'));
-            expect(screen.getByText('Content 2')).toBeVisible();
-            expect(screen.getByText('Content 1')).not.toBeVisible();
+            expect(screen.getByText('Content 2')).toBeInTheDocument();
+            expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
         });
 
         it('should call onValueChange when tab changes', async () => {
@@ -103,8 +103,8 @@ describe('Tabs', () => {
             );
 
             await user.click(screen.getByText('Tab 2'));
-            expect(screen.getByText('Content 1')).toBeVisible();
-            expect(screen.getByText('Content 2')).not.toBeVisible();
+            expect(screen.getByText('Content 1')).toBeInTheDocument();
+            expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
         });
     });
 
