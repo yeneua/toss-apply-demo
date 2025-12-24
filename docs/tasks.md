@@ -57,6 +57,6 @@
 - [x] [Tooltip] 접근성 (`aria-describedby`) 적용
 
 ## 문서화 및 배포 (Docs & Deploy)
-- [ ] README.md 작성 (설치 및 사용법)
+- [x] README.md 작성 (설치 및 사용법)
 - [ ] Storybook 배포 (Vercel/Netlify 등)
 - [ ] 최종 접근성 점검 (Lighthouse, Screen Reader)
