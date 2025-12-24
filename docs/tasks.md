@@ -32,11 +32,11 @@
 - [x] [Tabs] Storybook 문서화
 
 ### Accordion
-- [ ] [Accordion] 테스트 작성 (상태 관리, 다중/단일 선택, ARIA 속성)
-- [ ] [Accordion] 항목 확장/축소 상태 관리
-- [ ] [Accordion] 다중 선택/단일 선택 옵션 구현
-- [ ] [Accordion] WAI-ARIA 속성 적용 (`aria-expanded`, `aria-controls`)
-- [ ] [Accordion] Framer Motion 높이 애니메이션 적용
+- [x] [Accordion] 테스트 작성 (상태 관리, 다중/단일 선택, ARIA 속성)
+- [x] [Accordion] 항목 확장/축소 상태 관리
+- [x] [Accordion] 다중 선택/단일 선택 옵션 구현
+- [x] [Accordion] WAI-ARIA 속성 적용 (`aria-expanded`, `aria-controls`)
+- [x] [Accordion] Framer Motion 높이 애니메이션 적용
 
 ### Toast / Notification
 - [ ] [Toast] 테스트 작성 (Provider, 타이머, 스크린 리더, 애니메이션)
