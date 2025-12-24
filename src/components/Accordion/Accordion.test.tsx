@@ -92,6 +92,7 @@ describe('Accordion', () => {
 
             await user.click(screen.getByText('Item 1'));
             await user.click(screen.getByText('Item 1'));
+            await waitForElementToBeRemoved(() => screen.queryByText('Content 1'));
             expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
         });
 
@@ -129,6 +130,7 @@ describe('Accordion', () => {
             await user.click(screen.getByText('Item 1'));
             await user.click(screen.getByText('Item 2'));
 
+            await waitForElementToBeRemoved(() => screen.queryByText('Content 1'));
             expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
             expect(screen.getByText('Content 2')).toBeInTheDocument();
         });
@@ -186,6 +188,7 @@ describe('Accordion', () => {
             );
 
             await user.click(screen.getByText('Item 1'));
+            await waitForElementToBeRemoved(() => screen.queryByText('Content 1'));
             expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
         });
 
