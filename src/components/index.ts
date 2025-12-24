@@ -5,4 +5,5 @@ export * from './Tabs';
 export * from './Accordion';
 export * from './Toast';
 export * from './Switch';
+export * from './Tooltip';
 

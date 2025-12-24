@@ -51,10 +51,10 @@
 - [x] [Switch] 키보드 조작 및 접근성 라벨링
 
 ### Tooltip
-- [ ] [Tooltip] 테스트 작성 (이벤트 핸들링, 위치 계산, ARIA 속성)
-- [ ] [Tooltip] Hover/Focus 이벤트 핸들링
-- [ ] [Tooltip] 위치 계산 (Positioning) 로직
-- [ ] [Tooltip] 접근성 (`aria-describedby`) 적용
+- [x] [Tooltip] 테스트 작성 (이벤트 핸들링, 위치 계산, ARIA 속성)
+- [x] [Tooltip] Hover/Focus 이벤트 핸들링
+- [x] [Tooltip] 위치 계산 (Positioning) 로직
+- [x] [Tooltip] 접근성 (`aria-describedby`) 적용
 
 ## 문서화 및 배포 (Docs & Deploy)
 - [ ] README.md 작성 (설치 및 사용법)

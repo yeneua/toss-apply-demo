@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ToastProvider } from './components/Toast/ToastProvider';
 import { useToast } from './components/Toast/useToast';
 import { Switch } from './components/Switch';
+import { Tooltip, TooltipTrigger, TooltipContent } from './components/Tooltip';
 
 type View = 'landing' | 'guide' | 'components';
 
@@ -58,6 +59,7 @@ function App() {
                         <div className="grid gap-6">
                             <ToastDemo />
                             <SwitchDemo />
+                            <TooltipDemo />
                             {/* Other components will be added here */}
                         </div>
                     </div>
@@ -128,6 +130,32 @@ function ToastDemo() {
                 >
                     With Action
                 </button>
+            </div>
+        </section>
+    );
+}
+
+function TooltipDemo() {
+    return (
+        <section className="bg-slate-800 p-6 rounded-lg border border-slate-700">
+            <h3 className="text-xl font-semibold mb-4">Tooltip</h3>
+            <div className="flex gap-4">
+                <Tooltip>
+                    <TooltipTrigger className="px-4 py-2 bg-slate-600 text-white rounded hover:bg-slate-700 transition">
+                        Hover Me
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        This is a tooltip
+                    </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                    <TooltipTrigger className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                        Focus Me
+                    </TooltipTrigger>
+                    <TooltipContent side="right">
+                        Tooltip on Right
+                    </TooltipContent>
+                </Tooltip>
             </div>
         </section>
     );
