@@ -10,10 +10,10 @@
 ## 핵심 컴포넌트 개발 (Core Components)
 
 ### Dropdown / Select
-- [ ] [Dropdown] 테스트 작성 (기본 UI, 상태 관리, 키보드 네비게이션)
-- [ ] [Dropdown] 기본 UI 구조 및 Trigger 구현
-- [ ] [Dropdown] 메뉴 표시/숨김 로직 구현 (Open/Close State)
-- [ ] [Dropdown] 키보드 접근성 구현 (Arrow Up/Down, Enter, Esc)
+- [x] [Dropdown] 테스트 작성 (기본 UI, 상태 관리, 키보드 네비게이션)
+- [x] [Dropdown] 기본 UI 구조 및 Trigger 구현
+- [x] [Dropdown] 메뉴 표시/숨김 로직 구현 (Open/Close State)
+- [x] [Dropdown] 키보드 접근성 구현 (Arrow Up/Down, Enter, Esc)
 - [ ] [Dropdown] Storybook 문서화
 
 ### Modal / Dialog
