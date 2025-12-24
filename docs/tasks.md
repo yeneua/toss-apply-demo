@@ -1,11 +1,11 @@
 # Headless UI 디자인 시스템 라이브러리 개발 Task
 
 ## 초기 설정 및 환경 구성 (Setup)
-- [ ] 프로젝트 초기화 (React, TypeScript, Vite)
-- [ ] 테스트 환경 구성 (Vitest, React Testing Library, @testing-library/user-event)
-- [ ] Storybook 설치 및 설정
-- [ ] Tailwind CSS (또는 Vanilla Extract) 설치 및 설정
-- [ ] 기본 디렉토리 구조 및 Alias 설정
+- [x] 프로젝트 초기화 (React, TypeScript, Vite)
+- [x] 테스트 환경 구성 (Vitest, React Testing Library, @testing-library/user-event)
+- [x] Storybook 설치 및 설정
+- [x] Tailwind CSS (또는 Vanilla Extract) 설치 및 설정
+- [x] 기본 디렉토리 구조 및 Alias 설정
 
 ## 핵심 컴포넌트 개발 (Core Components)
 
