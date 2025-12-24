@@ -39,11 +39,11 @@
 - [x] [Accordion] Framer Motion 높이 애니메이션 적용
 
 ### Toast / Notification
-- [ ] [Toast] 테스트 작성 (Provider, 타이머, 스크린 리더, 애니메이션)
-- [ ] [Toast] Toast Provider 및 Context 구현
-- [ ] [Toast] 자동 사라짐 타이머 로직
-- [ ] [Toast] 스크린 리더 알림 처리 (Assertive/Polite)
-- [ ] [Toast] 애니메이션 및 위치 선정 로직
+- [x] [Toast] 테스트 작성 (Provider, 타이머, 스크린 리더, 애니메이션)
+- [x] [Toast] Toast Provider 및 Context 구현
+- [x] [Toast] 자동 사라짐 타이머 로직
+- [x] [Toast] 스크린 리더 알림 처리 (Assertive/Polite)
+- [x] [Toast] 애니메이션 및 위치 선정 로직
 
 ### Switch / Toggle
 - [ ] [Switch] 테스트 작성 (상태 제어, 키보드 조작, ARIA 속성)
