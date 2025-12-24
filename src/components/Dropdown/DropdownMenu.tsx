@@ -4,8 +4,15 @@ import type { DropdownMenuProps } from './types';
 import { cn } from '@/utils';
 
 export function DropdownMenu({ children, className }: DropdownMenuProps) {
-    const { isOpen, closeMenu, menuId, focusedIndex, setFocusedIndex, menuItemRefs } = useDropdown();
+    const { isOpen, closeMenu, menuId, focusedIndex, setFocusedIndex, menuItemRefs, activeItemId, setActiveItemId } = useDropdown();
     const menuRef = useRef<HTMLDivElement>(null);
+
+    // Focus menu when it opens for keyboard navigation
+    useEffect(() => {
+        if (isOpen && menuRef.current) {
+            menuRef.current.focus();
+        }
+    }, [isOpen]);
 
     // Handle keyboard navigation
     useEffect(() => {
@@ -30,7 +37,7 @@ export function DropdownMenu({ children, className }: DropdownMenuProps) {
                         if (firstEnabledItem) {
                             const firstIndex = items.indexOf(firstEnabledItem);
                             setFocusedIndex(firstIndex);
-                            firstEnabledItem.focus();
+                            setActiveItemId(firstEnabledItem.id);
                         }
                         return;
                     }
@@ -45,28 +52,18 @@ export function DropdownMenu({ children, className }: DropdownMenuProps) {
                         if (firstEnabledItem) {
                             const firstIndex = items.indexOf(firstEnabledItem);
                             setFocusedIndex(firstIndex);
-                            firstEnabledItem.focus();
+                            setActiveItemId(firstEnabledItem.id);
                         }
                         return;
                     }
 
-                    const nextIndex = currentEnabledIndex + 1;
-
-                    if (nextIndex >= enabledItems.length) {
-                        // Wrap to first item
-                        const firstEnabledItem = enabledItems[0];
-                        if (firstEnabledItem) {
-                            const firstIndex = items.indexOf(firstEnabledItem);
-                            setFocusedIndex(firstIndex);
-                            firstEnabledItem.focus();
-                        }
-                    } else {
-                        const nextEnabledItem = enabledItems[nextIndex];
-                        if (nextEnabledItem) {
-                            const nextItemIndex = items.indexOf(nextEnabledItem);
-                            setFocusedIndex(nextItemIndex);
-                            nextEnabledItem.focus();
-                        }
+                    // Move to next enabled item (wrap to first if at end)
+                    const nextEnabledIndex = (currentEnabledIndex + 1) % enabledItems.length;
+                    const nextEnabledItem = enabledItems[nextEnabledIndex];
+                    if (nextEnabledItem) {
+                        const nextIndex = items.indexOf(nextEnabledItem);
+                        setFocusedIndex(nextIndex);
+                        setActiveItemId(nextEnabledItem.id);
                     }
                     break;
                 }
@@ -80,7 +77,7 @@ export function DropdownMenu({ children, className }: DropdownMenuProps) {
                         if (lastEnabledItem) {
                             const lastIndex = items.indexOf(lastEnabledItem);
                             setFocusedIndex(lastIndex);
-                            lastEnabledItem.focus();
+                            setActiveItemId(lastEnabledItem.id);
                         }
                         return;
                     }
@@ -95,27 +92,30 @@ export function DropdownMenu({ children, className }: DropdownMenuProps) {
                         if (lastEnabledItem) {
                             const lastIndex = items.indexOf(lastEnabledItem);
                             setFocusedIndex(lastIndex);
-                            lastEnabledItem.focus();
+                            setActiveItemId(lastEnabledItem.id);
                         }
                         return;
                     }
 
-                    const prevIndex = currentEnabledIndex - 1;
+                    // Move to previous enabled item (wrap to last if at start)
+                    const prevEnabledIndex =
+                        currentEnabledIndex === 0 ? enabledItems.length - 1 : currentEnabledIndex - 1;
+                    const prevEnabledItem = enabledItems[prevEnabledIndex];
+                    if (prevEnabledItem) {
+                        const prevIndex = items.indexOf(prevEnabledItem);
+                        setFocusedIndex(prevIndex);
+                        setActiveItemId(prevEnabledItem.id);
+                    }
+                    break;
+                }
 
-                    if (prevIndex < 0) {
-                        // Wrap to last item
-                        const lastEnabledItem = enabledItems[enabledItems.length - 1];
-                        if (lastEnabledItem) {
-                            const lastIndex = items.indexOf(lastEnabledItem);
-                            setFocusedIndex(lastIndex);
-                            lastEnabledItem.focus();
-                        }
-                    } else {
-                        const prevEnabledItem = enabledItems[prevIndex];
-                        if (prevEnabledItem) {
-                            const prevItemIndex = items.indexOf(prevEnabledItem);
-                            setFocusedIndex(prevItemIndex);
-                            prevEnabledItem.focus();
+                case 'Enter':
+                case ' ': {
+                    event.preventDefault();
+                    if (focusedIndex >= 0) {
+                        const activeItem = items[focusedIndex];
+                        if (activeItem && activeItem.getAttribute('aria-disabled') !== 'true') {
+                            activeItem.click();
                         }
                     }
                     break;
@@ -125,19 +125,19 @@ export function DropdownMenu({ children, className }: DropdownMenuProps) {
 
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, focusedIndex, closeMenu, setFocusedIndex, menuItemRefs]);
-
-    // Reset refs array
-    useEffect(() => {
-        if (isOpen) {
-            menuItemRefs.current = [];
-        }
-    }, [isOpen, menuItemRefs]);
+    }, [isOpen, focusedIndex, setFocusedIndex, closeMenu, menuItemRefs, setActiveItemId]);
 
     if (!isOpen) return null;
 
     return (
-        <div ref={menuRef} id={menuId} role="menu" className={cn(className)}>
+        <div
+            ref={menuRef}
+            id={menuId}
+            role="menu"
+            tabIndex={-1}
+            aria-activedescendant={activeItemId || undefined}
+            className={cn(className)}
+        >
             {children}
         </div>
     );

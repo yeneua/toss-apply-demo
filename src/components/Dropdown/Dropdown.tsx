@@ -1,26 +1,29 @@
-import { useState, useRef, useId, useCallback, useEffect } from 'react';
+import { useState, useRef, useId, useCallback } from 'react';
 import { DropdownContext } from './DropdownContext';
 import type { DropdownProps } from './types';
 
 export function Dropdown({ children, defaultValue, value: controlledValue, onValueChange }: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const [internalValue, setInternalValue] = useState(defaultValue || null);
+    const [internalValue, setInternalValue] = useState<string | null>(defaultValue || null);
     const [focusedIndex, setFocusedIndex] = useState(-1);
-    const menuItemRefs = useRef<(HTMLElement | null)[]>([]);
+    const [activeItemId, setActiveItemId] = useState<string | null>(null);
+    const menuItemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     const triggerId = useId();
     const menuId = useId();
 
-    // Controlled vs uncontrolled value
     const selectedValue = controlledValue !== undefined ? controlledValue : internalValue;
 
-    const toggleMenu = useCallback(() => {
-        setIsOpen((prev) => !prev);
+    const openMenu = useCallback(() => {
+        setIsOpen(true);
+        setFocusedIndex(-1);
+        setActiveItemId(null);
     }, []);
 
     const closeMenu = useCallback(() => {
         setIsOpen(false);
         setFocusedIndex(-1);
+        setActiveItemId(null);
     }, []);
 
     const selectItem = useCallback(
@@ -34,24 +37,19 @@ export function Dropdown({ children, defaultValue, value: controlledValue, onVal
         [controlledValue, onValueChange, closeMenu]
     );
 
-    // Reset focused index when menu closes
-    useEffect(() => {
-        if (!isOpen) {
-            setFocusedIndex(-1);
-        }
-    }, [isOpen]);
-
     const contextValue = {
         isOpen,
-        toggleMenu,
-        closeMenu,
         selectedValue,
+        openMenu,
+        closeMenu,
         selectItem,
         triggerId,
         menuId,
         focusedIndex,
         setFocusedIndex,
         menuItemRefs,
+        activeItemId,
+        setActiveItemId,
     };
 
     return <DropdownContext.Provider value={contextValue}>{children}</DropdownContext.Provider>;

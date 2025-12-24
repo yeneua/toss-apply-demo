@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { Modal } from './Modal';
@@ -147,7 +147,7 @@ describe('Modal', () => {
     });
 
     describe('Accessibility', () => {
-        it('should have proper ARIA attributes', () => {
+        it('should have proper ARIA attributes', async () => {
             render(
                 <Modal open={true}>
                     <ModalContent>
@@ -157,9 +157,11 @@ describe('Modal', () => {
                 </Modal>
             );
 
-            const dialog = screen.getByRole('dialog');
-            expect(dialog).toHaveAttribute('aria-modal', 'true');
-            expect(dialog).toHaveAttribute('aria-labelledby');
+            await waitFor(() => {
+                const dialog = screen.getByRole('dialog');
+                expect(dialog).toHaveAttribute('aria-modal', 'true');
+                expect(dialog).toHaveAttribute('aria-labelledby');
+            });
         });
 
         it('should link title with aria-labelledby', () => {

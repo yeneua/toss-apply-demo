@@ -176,11 +176,14 @@ describe('Dropdown', () => {
             );
 
             await user.click(screen.getByRole('button'));
+            const menu = screen.getByRole('menu');
             await user.keyboard('{ArrowDown}');
-            expect(screen.getByRole('menuitem', { name: 'Item 1' })).toHaveFocus();
+            const item1 = screen.getByRole('menuitem', { name: 'Item 1' });
+            expect(menu).toHaveAttribute('aria-activedescendant', item1.id);
 
             await user.keyboard('{ArrowDown}');
-            expect(screen.getByRole('menuitem', { name: 'Item 2' })).toHaveFocus();
+            const item2 = screen.getByRole('menuitem', { name: 'Item 2' });
+            expect(menu).toHaveAttribute('aria-activedescendant', item2.id);
         });
 
         it('should navigate items with ArrowUp', async () => {
@@ -197,10 +200,12 @@ describe('Dropdown', () => {
             );
 
             await user.click(screen.getByRole('button'));
+            const menu = screen.getByRole('menu');
             await user.keyboard('{ArrowDown}');
             await user.keyboard('{ArrowDown}');
             await user.keyboard('{ArrowUp}');
-            expect(screen.getByRole('menuitem', { name: 'Item 1' })).toHaveFocus();
+            const item1 = screen.getByRole('menuitem', { name: 'Item 1' });
+            expect(menu).toHaveAttribute('aria-activedescendant', item1.id);
         });
 
         it('should wrap focus to last item when ArrowUp is pressed on first item', async () => {
@@ -217,9 +222,11 @@ describe('Dropdown', () => {
             );
 
             await user.click(screen.getByRole('button'));
+            const menu = screen.getByRole('menu');
             await user.keyboard('{ArrowDown}');
             await user.keyboard('{ArrowUp}');
-            expect(screen.getByRole('menuitem', { name: 'Item 3' })).toHaveFocus();
+            const item3 = screen.getByRole('menuitem', { name: 'Item 3' });
+            expect(menu).toHaveAttribute('aria-activedescendant', item3.id);
         });
 
         it('should wrap focus to first item when ArrowDown is pressed on last item', async () => {
@@ -236,11 +243,13 @@ describe('Dropdown', () => {
             );
 
             await user.click(screen.getByRole('button'));
+            const menu = screen.getByRole('menu');
             await user.keyboard('{ArrowDown}');
             await user.keyboard('{ArrowDown}');
             await user.keyboard('{ArrowDown}');
             await user.keyboard('{ArrowDown}');
-            expect(screen.getByRole('menuitem', { name: 'Item 1' })).toHaveFocus();
+            const item1 = screen.getByRole('menuitem', { name: 'Item 1' });
+            expect(menu).toHaveAttribute('aria-activedescendant', item1.id);
         });
 
         it('should select item when Enter is pressed on focused item', async () => {
@@ -387,10 +396,12 @@ describe('Dropdown', () => {
             );
 
             await user.click(screen.getByRole('button'));
+            const menu = screen.getByRole('menu');
             await user.keyboard('{ArrowDown}');
             await user.keyboard('{ArrowDown}');
 
-            expect(screen.getByRole('menuitem', { name: 'Item 3' })).toHaveFocus();
+            const item3 = screen.getByRole('menuitem', { name: 'Item 3' });
+            expect(menu).toHaveAttribute('aria-activedescendant', item3.id);
         });
 
         it('should have aria-disabled on disabled items', async () => {

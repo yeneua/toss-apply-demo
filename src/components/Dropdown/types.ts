@@ -1,16 +1,3 @@
-export interface DropdownContextValue {
-    isOpen: boolean;
-    toggleMenu: () => void;
-    closeMenu: () => void;
-    selectedValue: string | null;
-    selectItem: (value: string) => void;
-    triggerId: string;
-    menuId: string;
-    focusedIndex: number;
-    setFocusedIndex: (index: number) => void;
-    menuItemRefs: React.MutableRefObject<(HTMLElement | null)[]>;
-}
-
 export interface DropdownProps {
     children: React.ReactNode;
     defaultValue?: string;
@@ -33,4 +20,19 @@ export interface DropdownItemProps {
     children: React.ReactNode;
     className?: string;
     disabled?: boolean;
+}
+
+export interface DropdownContextValue {
+    isOpen: boolean;
+    selectedValue: string | null;
+    openMenu: () => void;
+    closeMenu: () => void;
+    selectItem: (value: string) => void;
+    triggerId: string;
+    menuId: string;
+    focusedIndex: number;
+    setFocusedIndex: (index: number) => void;
+    menuItemRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
+    activeItemId: string | null;
+    setActiveItemId: (id: string | null) => void;
 }

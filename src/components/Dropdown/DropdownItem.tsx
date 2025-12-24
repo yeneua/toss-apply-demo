@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useId } from 'react';
 import { useDropdown } from './useDropdown';
 import type { DropdownItemProps } from './types';
 import { cn } from '@/utils';
@@ -6,15 +6,15 @@ import { cn } from '@/utils';
 export function DropdownItem({ value, children, className, disabled = false }: DropdownItemProps) {
     const { selectItem, menuItemRefs } = useDropdown();
     const itemRef = useRef<HTMLDivElement>(null);
-    const indexRef = useRef<number>(-1);
+    const itemId = useId();
 
     // Register this item in the refs array
     useLayoutEffect(() => {
         if (itemRef.current) {
-            indexRef.current = menuItemRefs.current.length;
+            itemRef.current.id = `dropdown-item-${itemId}`;
             menuItemRefs.current.push(itemRef.current);
         }
-    }, [menuItemRefs]);
+    }, [menuItemRefs, itemId]);
 
     const handleClick = () => {
         if (disabled) return;
