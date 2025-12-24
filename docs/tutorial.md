@@ -1,82 +1,181 @@
-# AI 에이전트 기반 개발 워크플로우 튜토리얼
+# Headless UI Library - Usage Guide 📘
 
-이 문서는 AI 에이전트와 함께 아이디어를 구체적인 기획서(PRD)로 발전시키고, 개발 Task로 세분화하여 GitHub Issue로 등록하기까지의 과정을 정리한 튜토리얼입니다. 각 단계에서 사용된 **프롬프트**와 **활용 전략**을 중심으로 설명합니다.
+이 문서는 `toss-apply-demo` 라이브러리의 핵심 개념과 각 컴포넌트별 상세 사용법을 다룹니다.
 
----
+## 🌟 Core Concepts
 
-## 1. 아이디어에서 PRD(제품 요구사항 정의서) 도출하기
+### 1. Headless UI란?
+스타일이 입혀져 있지 않은 **순수 로직 컴포넌트**입니다.
+제공되는 컴포넌트는 오직 **기능(Functionality)**과 **접근성(Accessibility)**만을 담당하며, 디자인은 여러분이 원하는 대로 `className` 등을 통해 입힐 수 있습니다.
 
-불확실한 아이디어 메모를 체계적인 요구사항 정의서로 변환하는 단계입니다.
-
-### 🎯 사용 프롬프트
-> "@[docs/Ideation.md] 내용으로 프로젝트 @prd.md를 작성해줘"
-
-### 💡 프롬프트 전략
-- **Context 제공 (@):** AI가 참조해야 할 파일(`Ideation.md`)을 명확히 지정하여 환각(Hallucination)을 방지하고 문맥을 파악하게 했습니다.
-- **결과물 지정:** 생성될 파일명(`prd.md`)을 지정하여 AI가 목적에 맞는 포맷으로 작성하도록 유도했습니다.
-
-### ✅ 결과
-- 프로젝트 개요, 목표, 기술 스택, 주요 기능, 로드맵이 포함된 구조적인 PRD 초안 생성.
+### 2. Composition (합성)
+대부분의 컴포넌트는 유연성을 위해 **Compound Component** 패턴을 사용합니다.
+(예: `Tabs` = `Tabs.Root` + `Tabs.List` + `Tabs.Content`)
 
 ---
 
-## 2. 문서 다국어 번역 및 현지화
+## 🧩 Components Guide
 
-생성된 문서를 팀 내 언어(한국어)로 변환하고 뉘앙스를 다듬는 과정입니다.
+### 1. Toast (알림 메시지)
+화면 귀퉁이에 일시적으로 나타나는 알림입니다. 앱 최상위에서 `ToastProvider`로 감싸야 합니다.
 
-### 🎯 사용 프롬프트
-> "@[docs/prd.md] 한국말로 다시 작성해줘"
+```tsx
+import { ToastProvider, useToast } from 'toss-apply-demo';
 
-### 💡 프롬프트 전략
-- **반복(Iteration):** 한 번에 완벽한 문서를 만드는 것보다, 영어로 초안을 잡고 번역하는 것이 기술 용어의 정확성을 높일 수 있습니다.
-- **대상 지정:** 번역할 대상을 명확히 하여 전체 문맥을 유지한 채 언어만 변경하도록 요청했습니다.
+// 1. Wrap your app
+function App() {
+  return (
+    <ToastProvider>
+      <MainPage />
+    </ToastProvider>
+  );
+}
 
----
+// 2. Use hook to trigger toast
+function MainPage() {
+  const { toast } = useToast();
 
-## 3. PRD 기반의 개발 Task 추출
+  return (
+    <button 
+      className="btn"
+      onClick={() => toast({ 
+        title: '저장 완료', 
+        description: '성공적으로 저장되었습니다.',
+        variant: 'success' 
+      })}
+    >
+      저장하기
+    </button>
+  );
+}
+```
 
-기획서를 바탕으로 실제 개발해야 할 단위 작업 리스트를 뽑아내는 단계입니다.
+### 2. Switch (토글 스위치)
+설정을 켜고 끄는 직관적인 스위치입니다.
 
-### 🎯 사용 프롬프트
-> "@[docs/prd.md] 작업 내용을 task 문서로 한국말로 작성해줘"
+```tsx
+import { Switch } from 'toss-apply-demo';
+import { useState } from 'react';
 
-### 💡 프롬프트 전략
-- **정보 추출 및 변환:** 줄글 형태의 기획서에서 '할 일(To-do)' 형태의 리스트로 정보의 형태를 변환하도록 요청했습니다.
-- **구체성:** 단순히 "요약해줘"가 아니라 "task 문서"라고 명시하여 체크리스트 형태로 출력되도록 유도했습니다.
+function AirplaneMode() {
+  const [enabled, setEnabled] = useState(false);
 
----
+  return (
+    <div className="flex items-center gap-2">
+      <Switch 
+        checked={enabled} 
+        onCheckedChange={setEnabled}
+        aria-label="비행기 모드"
+        className="data-[state=checked]:bg-blue-600" 
+      />
+      <label>{enabled ? 'ON' : 'OFF'}</label>
+    </div>
+  );
+}
+```
 
-## 4. Task 파일 생성 및 저장
+### 3. Tooltip (툴팁)
+마우스 오버나 포커스 시 부가 설명을 보여줍니다.
 
-메모리 상에 있는 Task 리스트를 실제 파일로 저장하여 관리 가능한 상태로 만듭니다.
+```tsx
+import { Tooltip, TooltipTrigger, TooltipContent } from 'toss-apply-demo';
 
-### 🎯 사용 프롬프트
-> "tasks.md 파일로 만들어줘"
+function IconButton() {
+  return (
+    <Tooltip delayDuration={300}>
+      <TooltipTrigger asChild>
+        <button className="icon-btn">ℹ️</button>
+      </TooltipTrigger>
+      <TooltipContent side="top" className="bg-black text-white p-2 rounded">
+        추가 정보 보기
+      </TooltipContent>
+    </Tooltip>
+  );
+}
+```
 
-### 💡 프롬프트 전략
-- **실행(Action):** 앞선 대화의 맥락(Context)을 유지한 상태에서 구체적인 파일 생성을 지시했습니다.
+### 4. Dropdown (드롭다운 메뉴)
+클릭 시 메뉴 목록을 보여줍니다.
 
----
+```tsx
+import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from 'toss-apply-demo';
 
-## 5. GitHub Issue 등록을 위한 상세 스펙 작성
+function UserMenu() {
+  return (
+    <Dropdown>
+      <DropdownTrigger className="btn">내 계정</DropdownTrigger>
+      <DropdownContent className="menu-box">
+        <DropdownItem onSelect={() => console.log('Profile')}>프로필</DropdownItem>
+        <DropdownItem onSelect={() => console.log('Settings')}>설정</DropdownItem>
+        <div className="divider" />
+        <DropdownItem onSelect={() => console.log('Logout')} variant="danger">로그아웃</DropdownItem>
+      </DropdownContent>
+    </Dropdown>
+  );
+}
+```
 
-단순한 구현 리스트를 협업 도구(GitHub Issue)에 바로 등록할 수 있는 상세 템플릿으로 고도화하는 단계입니다.
+### 5. Modal (모달 대화상자)
+사용자의 주의를 집중시키는 대화상자입니다.
 
-### 🎯 사용 프롬프트
-> "task 항목을 github issue로 등록해줘. 작업 배경, 작업 내용, 인수 조건이 포함되어야해."
+```tsx
+import { Modal, ModalTrigger, ModalContent, ModalTitle, ModalDescription, ModalClose } from 'toss-apply-demo';
 
-### 💡 프롬프트 전략
-- **구조화된 출력 요청:** 단순 리스트가 아니라 `배경(Background)`, `내용(Content)`, `인수 조건(Acceptance Criteria)`이라는 3단 구조를 명시했습니다.
-- **도구 활용 시도:** 에이전트는 가능한 경우 CLI 도구(`gh`)를 사용하려 시도하며, 환경이 갖춰지지 않았을 경우 템플릿 파일(`github_issues.md`)을 생성하는 대체 경로(Fallback)를 선택하여 작업을 완수합니다.
+function DeleteConfirm() {
+  return (
+    <Modal>
+      <ModalTrigger className="btn-danger">삭제</ModalTrigger>
+      <ModalContent className="modal-box">
+        <ModalTitle>정말 삭제하시겠습니까?</ModalTitle>
+        <ModalDescription>이 작업은 되돌릴 수 없습니다.</ModalDescription>
+        <div className="flex justify-end gap-2 mt-4">
+          <ModalClose className="btn-secondary">취소</ModalClose>
+          <button className="btn-danger" onClick={handleDelete}>확인</button>
+        </div>
+      </ModalContent>
+    </Modal>
+  );
+}
+```
 
----
+### 6. Tabs (탭)
+콘텐츠를 여러 섹션으로 나누어 보여줍니다.
 
-## 📝 요약
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent } from 'toss-apply-demo';
 
-이 워크플로우를 통해 **"단 몇 줄의 아이디어 노트"**가 **"개발자가 바로 착수 가능한 수준의 Issue Ticket"**으로 구체화되었습니다.
+function Settings() {
+  return (
+    <Tabs defaultValue="account">
+      <TabsList className="tab-list">
+        <TabsTrigger value="account">계정</TabsTrigger>
+        <TabsTrigger value="password">비밀번호</TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">계정 설정 화면...</TabsContent>
+      <TabsContent value="password">비밀번호 변경 화면...</TabsContent>
+    </Tabs>
+  );
+}
+```
 
-1.  **참조(@)**를 통한 정확한 맥락 전달
-2.  **단계별 구체화(Refinement)** (문서 생성 -> 번역 -> Task 추출 -> 상세화)
-3.  **명확한 출력 형식(Format)** 요구 (배경/내용/인수조건 등)
+### 7. Accordion (아코디언)
+내용을 접고 펼칠 수 있는 목록입니다.
 
-이 세 가지 요소를 조합하면 AI 에이전트를 최고의 PM(Product Manager) 파트너로 활용할 수 있습니다.
+```tsx
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from 'toss-apply-demo';
+
+function FAQ() {
+  return (
+    <Accordion type="single" collapsible>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>환불 정책은 어떻게 되나요?</AccordionTrigger>
+        <AccordionContent>구매 후 7일 이내에 가능합니다.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger>배송 기간은 얼마나 걸리나요?</AccordionTrigger>
+        <AccordionContent>평균 2-3일 소요됩니다.</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+```

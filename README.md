@@ -23,6 +23,8 @@ yarn add toss-apply-demo
 
 > **Note**: This project requires React 18+ and supports Tailwind CSS for styling.
 
+> **📘 상세 가이드**: 각 컴포넌트의 자세한 사용법과 예제 코드는 [Docs: Tutorial](/docs/tutorial.md) 문서를 참고하세요.
+
 ## 🚀 Usage
 
 ### 1. Toast (알림)
