@@ -46,9 +46,9 @@
 - [x] [Toast] 애니메이션 및 위치 선정 로직
 
 ### Switch / Toggle
-- [ ] [Switch] 테스트 작성 (상태 제어, 키보드 조작, ARIA 속성)
-- [ ] [Switch] On/Off 상태 제어 로직
-- [ ] [Switch] 키보드 조작 및 접근성 라벨링
+- [x] [Switch] 테스트 작성 (상태 제어, 키보드 조작, ARIA 속성)
+- [x] [Switch] On/Off 상태 제어 로직
+- [x] [Switch] 키보드 조작 및 접근성 라벨링
 
 ### Tooltip
 - [ ] [Tooltip] 테스트 작성 (이벤트 핸들링, 위치 계산, ARIA 속성)

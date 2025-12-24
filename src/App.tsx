@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ToastProvider } from './components/Toast/ToastProvider';
 import { useToast } from './components/Toast/useToast';
+import { Switch } from './components/Switch';
 
 type View = 'landing' | 'guide' | 'components';
 
@@ -56,6 +57,7 @@ function App() {
                         <h2 className="text-3xl font-bold mb-6">Components</h2>
                         <div className="grid gap-6">
                             <ToastDemo />
+                            <SwitchDemo />
                             {/* Other components will be added here */}
                         </div>
                     </div>
@@ -126,6 +128,26 @@ function ToastDemo() {
                 >
                     With Action
                 </button>
+            </div>
+        </section>
+    );
+}
+
+function SwitchDemo() {
+    const [enabled, setEnabled] = useState(false);
+
+    return (
+        <section className="bg-slate-800 p-6 rounded-lg border border-slate-700">
+            <h3 className="text-xl font-semibold mb-4">Switch</h3>
+            <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-4">
+                    <Switch checked={enabled} onCheckedChange={setEnabled} aria-label="Airplane mode" />
+                    <span className="text-gray-300">Airplane Mode: {enabled ? 'On' : 'Off'}</span>
+                </div>
+                <div className="flex items-center gap-4">
+                    <Switch defaultChecked disabled aria-label="Disabled Checked" />
+                    <span className="text-gray-400">Disabled (Checked)</span>
+                </div>
             </div>
         </section>
     );
