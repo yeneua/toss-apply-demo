@@ -21,8 +21,8 @@
 - [x] [Modal] Portal 기반 Overlay 구현
 - [x] [Modal] Focus Trap (포커스 가두기) 구현
 - [x] [Modal] Esc 키 닫기 및 접근성 속성 적용
-- [ ] [Modal] Framer Motion 진입/이탈 애니메이션 적용
-- [ ] [Modal] Storybook 문서화
+- [x] [Modal] Framer Motion 진입/이탈 애니메이션 적용
+- [x] [Modal] Storybook 문서화
 
 ### Tabs
 - [ ] [Tabs] 테스트 작성 (상태 관리, 키보드 네비게이션, ARIA 속성)
